@@ -1,0 +1,32 @@
+# Agent Instructions for AI Coding Assistants
+
+## Rule 0: docs/ MUST stay in sync with src/
+
+Editing any `src/*.py` or source file REQUIRES updating its matching `docs/<module>.md` in the same change. The docs are read instead of source to save tokens, so stale docs mislead every future agent. No exceptions; create the doc if missing.
+
+## Rule 1: Targeted tests while patching, fresh suite before commit
+
+After every meaningful change to source or UI, run the smallest relevant check:
+
+```bash
+python -m py_compile app.py src/*.py
+python tests/test_specific.py
+```
+
+For UI changes, also run a Streamlit AppTest:
+
+```bash
+python -c 'from streamlit.testing.v1 import AppTest; at = AppTest.from_file("app.py", default_timeout=30); at.run(); assert not at.exception, at.exception'
+```
+
+Before every commit touching code, run the full active suite fresh after the last edit:
+
+```bash
+make test # or pytest
+```
+
+Commit only on 0 failures and record pass counts in `CHANGELOG.md`.
+
+## Universal Engineering Standard
+
+This project adheres to `GOLDEN_STD.md`. If `GOLDEN_STD.md` is missing or outdated, synchronize it from `playloud679/dev_standards`.
