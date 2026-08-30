@@ -1,8 +1,8 @@
 # GOLDEN_STD.md - Universal Development & AI Agent Contract
 
-**Specification Version:** `1.2.0`  
+**Specification Version:** `1.2.1`  
 **Last Updated:** `2026-08-30`  
-**Standard Identifier:** `STD-AGY-DEV-CONTRACT-V1.2`  
+**Standard Identifier:** `STD-AGY-DEV-CONTRACT-V1.2.1`  
 **Central Canonical Repository:** `https://github.com/playloud679/dev_standards`
 
 ---
@@ -39,6 +39,7 @@
 
 | Version | Date | Author / Context | Changes / Additions |
 |---|---|---|---|
+| `1.2.1` | 2026-08-30 | Core Engineering | Added Project Lifecycle & Versioning Stages (§8): Alpha stage (`0.x.y`, current active), Beta stage, and locked Major `1.0.0+` release strictly upon exit from Beta. |
 | `1.2.0` | 2026-08-30 | Core Engineering | Added Mandatory Version Bump Rule (§8): Every modification, bug fix, or feature committed MUST increment the release version with tags, changelog, and UI alignment. |
 | `1.1.0` | 2026-08-30 | Core Engineering | Added central sync instructions, conflict resolution disclaimer, UI key isolation (§3), Streamlit headless `AppTest` validation (§7), release tagging workflow (§8), Conventional Commits convention (§10), and Audio DSP & Acoustic Test Benches Addendum (§14). |
 | `1.0.0` | 2026-08-30 | Core Engineering | Initial baseline specification: branching strategy, documentation contract, token-efficient reading, change scope, tiered testing, error handling, and embedded firmware addendum. |
@@ -257,9 +258,20 @@ Report exact validation commands and outcomes. Do not claim a test passed unless
 > **EVERY modification, bug fix, UX cleanup, or feature committed to the repository MUST increment the release version.**
 > No code change may be committed or deployed without a corresponding version bump. Every deployed state must have a monotonically increasing, unambiguous release version so that users and agents always know the exact active build.
 >
-> 1. **Patch (`x.y.Z+1`)**: Bug fixes, calculation corrections, UX tweaks, doc/test updates, minor patches.
-> 2. **Minor (`x.Y+1.0`)**: New features, new workflows/tabs, hardware integrations, cloud sync additions.
-> 3. **Major (`X+1.0.0`)**: Breaking API, database schema, or acoustic engine model changes.
+> 1. **Patch (`0.y.Z+1` / `x.y.Z+1`)**: Bug fixes, calculation corrections, UX tweaks, doc/test updates, minor patches.
+> 2. **Minor (`0.Y+1.0` / `x.Y+1.0`)**: New features, new workflows/tabs, hardware integrations, cloud sync additions.
+> 3. **Major (`1.0.0` / `X+1.0.0`)**: Transition from Beta to Production General Availability (GA).
+
+### Project Lifecycle & Versioning Stages:
+- **Alpha Stage (`0.x.y` - CURRENT ACTIVE STATE)**:
+  - Rapid evolution, active experimentation, UI refinement, and foundational mechanics.
+  - All version bumps are strictly within `0.x.y` (e.g. `0.4.1`, `0.5.0`, `0.12.32`).
+  - Major version `1.0.0` is strictly locked and prohibited during Alpha.
+- **Beta Stage (`0.x.y` / feature-complete)**:
+  - Architecture stabilized, full feature set implemented, undergoing real-world validation, user testing, and hardening.
+- **Production / General Availability (`1.0.0+`)**:
+  - Major release `1.0.0` is cut ONLY upon formal exit from Beta once production stability and specification completeness are certified.
+  - Subsequent `X+1.0.0` bumps are reserved exclusively for breaking architectural changes in GA.
 
 For EVERY release-style commit or meaningful code change:
 1. Update `VERSION` (single-line SemVer string).
