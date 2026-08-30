@@ -1,8 +1,8 @@
 # GOLDEN_STD.md - Universal Development & AI Agent Contract
 
-**Specification Version:** `1.1.0`  
+**Specification Version:** `1.2.0`  
 **Last Updated:** `2026-08-30`  
-**Standard Identifier:** `STD-AGY-DEV-CONTRACT-V1.1`  
+**Standard Identifier:** `STD-AGY-DEV-CONTRACT-V1.2`  
 **Central Canonical Repository:** `https://github.com/playloud679/dev_standards`
 
 ---
@@ -39,6 +39,7 @@
 
 | Version | Date | Author / Context | Changes / Additions |
 |---|---|---|---|
+| `1.2.0` | 2026-08-30 | Core Engineering | Added Mandatory Version Bump Rule (§8): Every modification, bug fix, or feature committed MUST increment the release version with tags, changelog, and UI alignment. |
 | `1.1.0` | 2026-08-30 | Core Engineering | Added central sync instructions, conflict resolution disclaimer, UI key isolation (§3), Streamlit headless `AppTest` validation (§7), release tagging workflow (§8), Conventional Commits convention (§10), and Audio DSP & Acoustic Test Benches Addendum (§14). |
 | `1.0.0` | 2026-08-30 | Core Engineering | Initial baseline specification: branching strategy, documentation contract, token-efficient reading, change scope, tiered testing, error handling, and embedded firmware addendum. |
 
@@ -249,20 +250,24 @@ Report exact validation commands and outcomes. Do not claim a test passed unless
 
 ---
 
-## 8. Versioning
+## 8. Versioning & Mandatory Bump per Modification
 
-For release-style work, update:
+> [!IMPORTANT]
+> ### Mandatory Version Bump Rule
+> **EVERY modification, bug fix, UX cleanup, or feature committed to the repository MUST increment the release version.**
+> No code change may be committed or deployed without a corresponding version bump. Every deployed state must have a monotonically increasing, unambiguous release version so that users and agents always know the exact active build.
+>
+> 1. **Patch (`x.y.Z+1`)**: Bug fixes, calculation corrections, UX tweaks, doc/test updates, minor patches.
+> 2. **Minor (`x.Y+1.0`)**: New features, new workflows/tabs, hardware integrations, cloud sync additions.
+> 3. **Major (`X+1.0.0`)**: Breaking API, database schema, or acoustic engine model changes.
 
-- `VERSION`
-- package metadata such as `pyproject.toml`, `package.json`, or `Cargo.toml`
-- `CHANGELOG.md`
-- user docs when behavior is visible
-
-Version bump rules:
-
-- Patch: bugfix, UX cleanup, docs/test update.
-- Minor: new user-facing feature.
-- Major: breaking API or behavior change.
+For EVERY release-style commit or meaningful code change:
+1. Update `VERSION` (single-line SemVer string).
+2. Update package metadata (`pyproject.toml`, `package.json`, or `Cargo.toml`).
+3. Update `CHANGELOG.md` with date, summary of changes, and pass counts.
+4. Update visible badges and versions in `README.md` and UI.
+5. Create an annotated Git tag: `git tag -a vX.Y.Z -m "Release vX.Y.Z: summary"`.
+6. Push branch and tags: `git push origin dev --tags` (or main).
 
 Changelog format:
 
@@ -272,13 +277,6 @@ Changelog format:
 - **Area**: concise description of what changed and why.
 - **Docs/Test**: mention updated docs, tests, and version files.
 ```
-
-Release workflow:
-1. Bump `VERSION`, package metadata (`pyproject.toml`, etc.), and `CHANGELOG.md`.
-2. Update matching docs and verify the full test suite passes (`make test` or `python tests/test_all.py`).
-3. Commit with prefix `release: vX.Y.Z - summary`.
-4. Create an annotated tag: `git tag -a vX.Y.Z -m "Release vX.Y.Z: summary"`.
-5. Push branch and tag: `git push origin dev --tags` (or main when merging).
 
 ### Specification (`GOLDEN_STD.md`) Versioning:
 When modifying `GOLDEN_STD.md` rules, update its header `Specification Version` (SemVer) and append a row to the `Specification Revision History` table at the top of the file before distributing or committing.
