@@ -11,7 +11,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-CANONICAL_RAW_BASE = "https://raw.githubusercontent.com/playloud679/dev_standards/main"
+CANONICAL_RAW_BASE = "https://raw.githubusercontent.com/playloud679/dev_standards/refs/heads/main"
 
 
 def get_version_from_content(text: str) -> str | None:

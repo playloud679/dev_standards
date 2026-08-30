@@ -32,7 +32,7 @@ To check for updates or pull the latest `GOLDEN_STD.md` into any repository:
 
 ```bash
 # Direct one-line curl download:
-curl -s https://raw.githubusercontent.com/playloud679/dev_standards/main/GOLDEN_STD.md -o GOLDEN_STD.md
+curl -s https://raw.githubusercontent.com/playloud679/dev_standards/refs/heads/main/GOLDEN_STD.md -o GOLDEN_STD.md
 ```
 
 Or using the built-in sync tool:
