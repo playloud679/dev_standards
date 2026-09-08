@@ -1,9 +1,28 @@
 # GOLDEN_STD.md - Universal Development & AI Agent Contract
 
-**Specification Version:** `1.2.1`  
-**Last Updated:** `2026-08-30`  
-**Standard Identifier:** `STD-AGY-DEV-CONTRACT-V1.2.1`  
+**Specification Version:** `1.3.1`
+
+**Last Updated:** `2026-09-08`
+
+**Standard Identifier:** `STD-AGY-DEV-CONTRACT-V1.3.1`
+
 **Central Canonical Repository:** `https://github.com/playloud679/dev_standards`
+
+---
+
+## 0. Modular Development & Module Documentation
+
+Software MUST be developed as cohesive modules with clear responsibilities and explicit interfaces. A module is a logical unit of behavior, implemented by one source file or a coherent group of files; it is not necessarily a single class or function.
+
+For every module:
+
+- Define its responsibility, public interface, dependencies, and boundaries. Keep unrelated responsibilities separate and avoid circular dependencies.
+- Adequately comment the source: include a short module-level description and document public APIs, non-obvious decisions, invariants, and edge cases as needed. Follow §6; comments must explain intent rather than repeat instructions.
+- Maintain a dedicated Markdown document, by default `docs/modules/<module-path>.md`. Record the source files it covers and link to it from the module-level source comment or docstring.
+- Register the module, its source paths, and its dedicated document in `docs/INDEX.md`. Existing documentation paths are acceptable when this mapping is explicit and unambiguous.
+- Apply the Documentation Contract (§2) after every patch affecting the module. Code comments and the dedicated document are complementary obligations.
+
+Prefer boundaries that match the project's behavior and architecture; avoid arbitrary file-size limits or splitting code into modules without a clear responsibility. When patching existing code, apply these requirements to the affected modules without refactoring unrelated areas.
 
 ---
 
@@ -39,6 +58,8 @@
 
 | Version | Date | Author / Context | Changes / Additions |
 |---|---|---|---|
+| `1.3.1` | 2026-09-08 | Core Engineering | Required version bumps for application patches only, exempted documentation/test-only changes, assigned lifecycle state to each project, and added documentation-only validation rules. |
+| `1.3.0` | 2026-09-08 | Core Engineering | Added initial modular development contract (§0), explicit module-to-doc mapping and post-patch obligations (§2), and aligned module comments, done criteria, and agent template. |
 | `1.2.1` | 2026-08-30 | Core Engineering | Added Project Lifecycle & Versioning Stages (§8): Alpha stage (`0.x.y`, current active), Beta stage, and locked Major `1.0.0+` release strictly upon exit from Beta. |
 | `1.2.0` | 2026-08-30 | Core Engineering | Added Mandatory Version Bump Rule (§8): Every modification, bug fix, or feature committed MUST increment the release version with tags, changelog, and UI alignment. |
 | `1.1.0` | 2026-08-30 | Core Engineering | Added central sync instructions, conflict resolution disclaimer, UI key isolation (§3), Streamlit headless `AppTest` validation (§7), release tagging workflow (§8), Conventional Commits convention (§10), and Audio DSP & Acoustic Test Benches Addendum (§14). |
@@ -91,14 +112,26 @@ When modifying a source module, update the matching documentation in the same ch
 
 | Changed file | Required documentation |
 |---|---|
-| `src/foo.py` | `docs/foo.md` |
-| `src/bar.ts` / `*.cpp` | `docs/bar.md` |
+| `src/foo.py` | `docs/modules/foo.md` |
+| `src/services/bar.ts` | `docs/modules/services/bar.md` |
+| `src/drivers/bar.cpp` and `src/drivers/bar.h` (one logical module) | `docs/modules/drivers/bar.md` |
 | user-visible UI behavior | `USER_GUIDE.md` and/or `docs/INDEX.md` |
 | release/version behavior | `CHANGELOG.md`, `VERSION`, package metadata |
 
-If a matching doc does not exist, create it.
+Use the module-to-doc mapping established in §0. If a matching doc or `docs/INDEX.md` does not exist, create it. Preserve source-relative paths by default to avoid collisions between modules with the same basename. A module spanning multiple source files has one dedicated document listing all covered files.
 
 Docs should explain public APIs, invariants, assumptions, edge cases, failure modes, and the tests protecting the behavior. Future agents should be able to read docs before source to save tokens.
+
+### Post-Patch Documentation Obligations
+
+Before handing off any patch affecting source:
+
+1. Identify all affected modules, including dependent modules whose contracts changed, and locate their dedicated `.md` files through `docs/INDEX.md`.
+2. Update each affected module document in the same change to match the resulting behavior, interfaces, dependencies, and constraints. For an internal-only patch, record the relevant implementation rationale or validation without inventing an API change.
+3. Review and update module descriptions, API documentation, inline comments, and source-to-doc pointers where needed.
+4. For added, renamed, split, or removed modules, update the source-to-doc mapping, references, and index; remove or explicitly archive obsolete module documents.
+5. Record relevant validation commands and actual outcomes in the module document, including checks not run and why. Update user guides and release documentation when affected.
+6. Verify that source-to-doc links and index entries resolve, and mention the affected modules and updated documentation in the final handoff.
 
 ---
 
@@ -184,7 +217,7 @@ Never run destructive commands such as `git reset --hard`, `git checkout -- .`, 
 
 ## 6. Code Comments
 
-Comments inside code should be sparse and useful.
+Every module must be adequately commented as required by §0. Keep comments concise and useful; comment density is not a quality metric. Include a module-level description and a pointer to the dedicated Markdown document, and document public API inputs, outputs, and failure behavior where these are not already clear from the language's declarations.
 
 Use comments to explain:
 
@@ -232,7 +265,7 @@ For shared logic, run the affected suite after focused checks.
 
 Do not run the full suite after every small edit by default. Full runs are expensive and should be reserved for push, PR, release, or final handoff readiness, or for changes with broad blast radius.
 
-Run the full suite before push, PR, release, or final handoff of a completed change:
+For changes affecting executable behavior (including source, tests, dependencies, build/runtime configuration, or executable documentation examples), run the full active suite before push, PR, release, or final handoff of a completed change:
 
 ```bash
 make test
@@ -247,23 +280,36 @@ pytest
 cargo test
 ```
 
-Report exact validation commands and outcomes. Do not claim a test passed unless it was actually run.
+For documentation-only patches, including accompanying version strings, badges, and changelog entries that do not affect executable behavior, the application suite is not required. Instead:
+
+- Run `git diff --check`.
+- Verify changed local links, anchors, and module-to-doc mappings where applicable.
+- Check consistency of instructions, cross-references, versions, and changelog entries.
+- Run the project's documentation lint/build checks when configured.
+
+If a patch also affects executable behavior, apply the code validation requirements above. Classify by impact, not file extension; a documentation file containing changed executable examples may require relevant code checks. Changes to firmware hardware assumptions also follow §13.
+
+Report exact validation commands and outcomes, including why the application suite was not run for a documentation-only patch. Do not claim a test passed unless it was actually run.
 
 ---
 
-## 8. Versioning & Mandatory Bump per Modification
+## 8. Versioning & Mandatory Bump per Application Patch
 
 > [!IMPORTANT]
 > ### Mandatory Version Bump Rule
-> **EVERY modification, bug fix, UX cleanup, or feature committed to the repository MUST increment the release version.**
-> No code change may be committed or deployed without a corresponding version bump. Every deployed state must have a monotonically increasing, unambiguous release version so that users and agents always know the exact active build.
+> **EVERY application patch MUST increment the release version. Changes limited to documentation, tests, or both do not require a version bump.**
+> Application patches include application or firmware source changes, refactoring, bug fixes, UX changes, features, and changes to dependencies or build/runtime configuration that affect the delivered application. Mixed patches containing application changes require a bump even when they also update docs or tests.
+> For application patches, the bump is mandatory before final handoff, commit, or deployment and does not require a separate user request. A patch is a coherent change, not each intermediate file save; every subsequent application change commit must advance the version again. Every deployed application state must have a monotonically increasing, unambiguous release version.
 >
-> 1. **Patch (`0.y.Z+1` / `x.y.Z+1`)**: Bug fixes, calculation corrections, UX tweaks, doc/test updates, minor patches.
+> 1. **Patch (`0.y.Z+1` / `x.y.Z+1`)**: Bug fixes, calculation corrections, UX tweaks, refactoring, and other minor application patches.
 > 2. **Minor (`0.Y+1.0` / `x.Y+1.0`)**: New features, new workflows/tabs, hardware integrations, cloud sync additions.
-> 3. **Major (`1.0.0` / `X+1.0.0`)**: Transition from Beta to Production General Availability (GA).
+> 3. **Major (`1.0.0` / `X+1.0.0`)**: Transition from Beta to Production General Availability (GA), or subsequent breaking changes in GA.
 
 ### Project Lifecycle & Versioning Stages:
-- **Alpha Stage (`0.x.y` - CURRENT ACTIVE STATE)**:
+
+Each project declares its own current lifecycle stage in `README.md` or `AGENTS.md`, together with its release criteria. This universal standard does not prescribe a current stage. Preserve the project's declared stage and version series; adopting this standard must not reset an existing version to `0.x.y`. If the stage is undocumented, preserve the existing version series and report the missing declaration without assuming Alpha or promoting the project to GA.
+
+- **Alpha Stage (`0.x.y`)**:
   - Rapid evolution, active experimentation, UI refinement, and foundational mechanics.
   - All version bumps are strictly within `0.x.y` (e.g. `0.4.1`, `0.5.0`, `0.12.32`).
   - Major version `1.0.0` is strictly locked and prohibited during Alpha.
@@ -273,13 +319,14 @@ Report exact validation commands and outcomes. Do not claim a test passed unless
   - Major release `1.0.0` is cut ONLY upon formal exit from Beta once production stability and specification completeness are certified.
   - Subsequent `X+1.0.0` bumps are reserved exclusively for breaking architectural changes in GA.
 
-For EVERY release-style commit or meaningful code change:
+For EVERY application patch:
+
 1. Update `VERSION` (single-line SemVer string).
-2. Update package metadata (`pyproject.toml`, `package.json`, or `Cargo.toml`).
-3. Update `CHANGELOG.md` with date, summary of changes, and pass counts.
-4. Update visible badges and versions in `README.md` and UI.
-5. Create an annotated Git tag: `git tag -a vX.Y.Z -m "Release vX.Y.Z: summary"`.
-6. Push branch and tags: `git push origin dev --tags` (or main).
+2. Update package metadata where present (`pyproject.toml`, `package.json`, or `Cargo.toml`).
+3. Update `CHANGELOG.md` with date, summary, actual validation outcomes, and pass counts when tests ran. Record checks not run and why instead of inventing pass counts.
+4. Update visible badges and versions in `README.md` and UI where present.
+
+When a release is requested or already authorized, create an annotated Git tag (`git tag -a vX.Y.Z -m "Release vX.Y.Z: summary"`) and push the authorized branch and release tag. The mandatory local bump does not itself authorize a commit, tag, push, or release.
 
 Changelog format:
 
@@ -291,7 +338,7 @@ Changelog format:
 ```
 
 ### Specification (`GOLDEN_STD.md`) Versioning:
-When modifying `GOLDEN_STD.md` rules, update its header `Specification Version` (SemVer) and append a row to the `Specification Revision History` table at the top of the file before distributing or committing.
+The specification version tracks published editions of this standard independently of application releases. Documentation-only and test-only patches, including edits to this standard, do not require a version bump. When publishing a new specification edition, synchronize its header `Specification Version`, identifier, revision history, `VERSION`, README badge, and changelog.
 
 ---
 
@@ -325,7 +372,7 @@ git status -sb
 git diff --check
 ```
 
-Before push, PR, release, or final handoff:
+Before push, PR, release, or final handoff, complete the validation required by §7. For changes affecting executable behavior:
 
 ```bash
 make test
@@ -402,9 +449,10 @@ A task is done only when:
 
 - requested behavior is implemented
 - relevant docs are updated
-- relevant focused tests pass
-- full suite passes before push, PR, release, or final handoff
-- version/changelog are updated when requested
+- affected modules have adequate source comments, dedicated `.md` documentation, and current mappings in `docs/INDEX.md`; §2 post-patch obligations are complete
+- relevant focused tests and the full active suite pass for executable changes as required by §7
+- documentation-only patches pass the documentation checks in §7; the reason for not running the application suite is reported
+- version/changelog and existing version metadata are updated for application patches as required by §8; documentation-only and test-only patches do not require a version bump
 - commit is created when requested
 - push/PR is done when requested
 - remaining risks are explicitly stated
@@ -499,7 +547,7 @@ pio run -e affected_env_2
 python -m pytest
 ```
 
-Before push, PR, release, or final handoff:
+Before push, PR, release, or final handoff of firmware changes:
 
 ```bash
 pio run
@@ -563,7 +611,7 @@ An embedded task is done only when:
 - docs match hardware assumptions
 - pin/protocol/storage/timing changes are called out
 - upload/hardware smoke test is run when required or explicitly skipped with a reason
-- full build/test matrix passes before push, PR, release, or final handoff
+- full build/test matrix passes before push, PR, release, or final handoff of firmware changes; documentation-only patches follow §7, but changes to documented pin/protocol/storage/timing or safety assumptions require the relevant engineering validation above
 
 ---
 
