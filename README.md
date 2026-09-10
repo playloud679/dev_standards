@@ -1,6 +1,6 @@
 # Development Standards & AI Agent Engineering Guide
 
-[![Version](https://img.shields.io/badge/version-1.3.1-blue.svg)](VERSION)
+[![Version](https://img.shields.io/badge/version-1.3.2-blue.svg)](VERSION)
 [![Standard](https://img.shields.io/badge/standard-GOLDEN__STD-gold.svg)](GOLDEN_STD.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -18,6 +18,8 @@ Central single source of truth for engineering contracts, coding standards, AI a
 - [**Audio DSP & Acoustics Standard**](addenda/AUDIO_DSP_ACOUSTICS.md)
 - [**Embedded Firmware & IoT Standard**](addenda/EMBEDDED_FIRMWARE.md)
 - [**Streamlit & SaaS Web Dashboard Standard**](addenda/STREAMLIT_SAAS.md)
+
+The core contains universal rules; domain details live in these addenda. Declare the applicable addenda in each project's `AGENTS.md` or `README.md`.
 
 ### 📋 Project Templates
 
@@ -44,6 +46,8 @@ python scripts/sync_standards.py --check --target /path/to/my_project
 # Synchronize:
 python scripts/sync_standards.py --target /path/to/my_project
 ```
+
+Both methods synchronize only `GOLDEN_STD.md`. Copy applicable files from `addenda/` separately, from the same canonical revision, keeping their relative paths. See [addendum selection and synchronization](GOLDEN_STD.md#15-selecting-and-synchronizing-addenda).
 
 ---
 

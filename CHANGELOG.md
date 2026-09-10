@@ -2,6 +2,20 @@
 
 All notable changes to the development standards specification and tooling are documented in this file.
 
+## [1.3.2] - 2026-09-10
+
+### Changed
+- Require module documentation review after each patch, with edits only for missing or inaccurate information.
+- Keep reusable test procedures in module docs and individual execution outcomes in patch reports or PRs.
+- Scale local validation to impact; retain full-suite checks before integration or application release, including CI on the final code state.
+- Use task branches with a project-defined integration target.
+- Move firmware details into the embedded addendum and use the existing audio and Streamlit addenda as domain references; document separate addendum synchronization.
+- Align the agent template and synchronize the specification header, identifier, revision history, `VERSION`, and README badge to `1.3.2`.
+
+### Validation
+- `git diff --check` passed; a Ruby read-only link check validated the six local links in the core and updated addenda, plus the README synchronization anchor.
+- Reviewed cross-references and validation requirements with `rg`. Application tests were not run because this patch changes documentation only.
+
 ## [1.3.1] - 2026-09-08
 
 ### Changed

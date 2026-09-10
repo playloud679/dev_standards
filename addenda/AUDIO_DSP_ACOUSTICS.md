@@ -55,5 +55,6 @@ All simulation models and parameter extractors must respect electroacoustic phys
    - Gracefully handle empty or disconnected audio devices without crashing the UI.
 
 2. **Latency Cushion & Chirp Tracking**:
+   - Add leading and trailing latency cushions (e.g. $\ge 0.5\text{ s}$) around acquisition to prevent truncating chirp boundaries.
    - Log-swept sine signals require post-sweep recording time ($\ge 0.5\text{ s}$) to capture room/system latency tails without truncating high frequencies at 20 kHz.
    - Prefer tracking coherent demodulation / channel-ratio analysis over naive global FFTs.
