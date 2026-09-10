@@ -14,6 +14,7 @@ In Streamlit, avoid `StreamlitValueAssignmentNotAllowedError` by strictly separa
   - `driver_fs_hz`, `driver_qts`, `box_vb_l`, `port_fb_hz`
 - **Interactive Action Buttons / Trigger Keys**: Use dedicated action prefixes:
   - `btn_apply_combo`, `btn_calculate_ts`, `action_reset`
+- **Temporary Widget Keys**: Use a distinct prefix such as `temp_` and exclude these keys from persistent parameter serialization.
 - **Rule**: Action buttons and modal triggers must NEVER share a prefix with the model parameter dictionary or session-state collection loop.
 
 ---
@@ -37,7 +38,7 @@ importlib.reload(my_engine)
 
 ## 3. Headless UI Testing
 
-Always validate Streamlit rendering without a browser before committing:
+For patches affecting Streamlit rendering or its backend integration, run a headless AppTest as a focused UI check. Documentation-only changes do not require it. Broader validation follows [the core testing contract](../GOLDEN_STD.md#7-testing):
 
 ```bash
 python -c 'from streamlit.testing.v1 import AppTest; at = AppTest.from_file("app.py", default_timeout=30); at.run(); assert not at.exception, at.exception'
