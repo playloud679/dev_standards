@@ -1,6 +1,6 @@
 # Development Standards & AI Agent Engineering Guide
 
-[![Version](https://img.shields.io/badge/version-1.3.2-blue.svg)](VERSION)
+[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)](VERSION)
 [![Standard](https://img.shields.io/badge/standard-GOLDEN__STD-gold.svg)](GOLDEN_STD.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -10,7 +10,7 @@ Central single source of truth for engineering contracts, coding standards, AI a
 
 ## 📖 Core Documents
 
-- [**`GOLDEN_STD.md`**](GOLDEN_STD.md): The universal development contract (modular architecture, module comments and dedicated docs, post-patch doc sync, branching, UI isolation, testing, commit conventions, versioning, conflict-resolution disclaimer).
+- [**`GOLDEN_STD.md`**](GOLDEN_STD.md): The universal development contract (modular architecture, module comments and dedicated docs, post-patch doc sync, branching, UI isolation, testing, commit conventions, versioning, source-of-truth protection for generated artifacts, conflict-resolution disclaimer).
 - [**`CHANGELOG.md`**](CHANGELOG.md): Revision history of the specification.
 
 ### 🧩 Modular Addenda

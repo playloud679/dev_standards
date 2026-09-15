@@ -2,6 +2,18 @@
 
 All notable changes to the development standards specification and tooling are documented in this file.
 
+## [1.4.0] - 2026-09-15
+
+### Added
+- Source of Truth & Generated Artifacts (§16): projects must declare hand-editable versus generated artifacts; hand-edited generated artifacts become the source of truth and must not be overwritten wholesale unless regeneration is explicitly requested.
+- Mandatory snapshot before modifying a declared source of truth, verification after the change, and a drift report (live versus freshly generated output) before any authorized regeneration.
+
+### Changed
+- Extended the `AGENTS.md` template with a source-of-truth rule and synchronized the specification header, identifier, revision history, `VERSION`, and README badge to `1.4.0`.
+
+### Validation
+- `git diff --check` passed; version references checked across `GOLDEN_STD.md`, `README.md`, `VERSION`, and this changelog. Application tests were not run because this patch changes documentation only.
+
 ## [1.3.2] - 2026-09-10
 
 ### Changed

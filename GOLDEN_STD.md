@@ -1,10 +1,10 @@
 # GOLDEN_STD.md - Universal Development & AI Agent Contract
 
-**Specification Version:** `1.3.2`
+**Specification Version:** `1.4.0`
 
-**Last Updated:** `2026-09-10`
+**Last Updated:** `2026-09-15`
 
-**Standard Identifier:** `STD-AGY-DEV-CONTRACT-V1.3.2`
+**Standard Identifier:** `STD-AGY-DEV-CONTRACT-V1.4.0`
 
 **Central Canonical Repository:** `https://github.com/playloud679/dev_standards`
 
@@ -58,6 +58,7 @@ Prefer boundaries that match the project's behavior and architecture; avoid arbi
 
 | Version | Date | Author / Context | Changes / Additions |
 |---|---|---|---|
+| `1.4.0` | 2026-09-15 | Core Engineering | Added Source of Truth & Generated Artifacts (§16): declare sources of truth, never overwrite hand-edited generated artifacts, snapshot before modifying and verify after, drift report before authorized regeneration. |
 | `1.3.2` | 2026-09-10 | Core Engineering | Required documentation review with edits only when needed, separated test procedures from run outcomes, scaled validation to impact and delivery stage, adopted project-defined branching, and moved domain details into addenda. |
 | `1.3.1` | 2026-09-08 | Core Engineering | Required version bumps for application patches only, exempted documentation/test-only changes, assigned lifecycle state to each project, and added documentation-only validation rules. |
 | `1.3.0` | 2026-09-08 | Core Engineering | Added initial modular development contract (§0), explicit module-to-doc mapping and post-patch obligations (§2), and aligned module comments, done criteria, and agent template. |
@@ -443,3 +444,15 @@ For Streamlit dashboards and SaaS web applications, apply the [Streamlit & SaaS 
 Declare applicable addenda in the project's `AGENTS.md` or `README.md` and read them before relevant work. Keep their relative `addenda/` paths when copying the standard into a project.
 
 The one-file download and `scripts/sync_standards.py` synchronize only `GOLDEN_STD.md`. Copy applicable addenda separately from the same canonical revision, preserving their paths, and review them for local compatibility. A missing required addendum must be retrieved before domain-specific work; the core document is not a substitute for it.
+
+---
+
+## 16. Source of Truth & Generated Artifacts
+
+Every project MUST declare its sources of truth in `AGENTS.md` (or `README.md` when no agent contract exists): which artifacts are hand-editable, which are generated, and by which command or tool.
+
+- Generated artifacts that have been manually edited become the source of truth. Agents MUST NOT run generators or commands that overwrite them wholesale unless the user explicitly requests regeneration.
+- Audits, reviews, and checks MUST remain read-only and MUST NOT modify the project.
+- Before modifying a declared source-of-truth artifact, create a timestamped snapshot (backup or commit). After modifying it, run the project's verification (tests, lint, ERC/DRC, review) on the result.
+- If regeneration is explicitly requested, snapshot first, produce a drift report comparing the live artifacts against freshly generated output, port or preserve the manual changes, then regenerate and verify.
+- Never assume a generator still describes its generated artifact. When they diverge, apply changes to the declared source of truth and treat generator updates as an explicit, separate change.

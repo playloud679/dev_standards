@@ -27,6 +27,10 @@ Every application patch requires a version bump and changelog update before fina
 
 Declare this project's lifecycle stage and release criteria in `README.md` or `AGENTS.md`. Follow the project's declared stage and existing version series; do not assume Alpha or reset versions when adopting the standard.
 
+## Rule 3: Source of truth and generated artifacts
+
+Declare in this file which artifacts are hand-editable, which are generated, and by which command. Generated artifacts that were manually edited become the source of truth: never run generators that overwrite them wholesale unless regeneration is explicitly requested. Snapshot before modifying a declared source of truth and verify the result afterwards. Follow `GOLDEN_STD.md` §16.
+
 ## Universal Engineering Standard
 
 This project adheres to `GOLDEN_STD.md`. If `GOLDEN_STD.md` is missing or outdated, synchronize it from `playloud679/dev_standards`.
