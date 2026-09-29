@@ -6,6 +6,8 @@ Guidelines and safety invariants for embedded microcontrollers (ESP32, STM32, Ar
 
 ---
 
+> **antirez style reminder:** minimalism, near-zero dependencies, efficiency, zero complexity. Firmware also follows the antirez style: keep the smallest correct implementation, avoid unnecessary dependencies, and never trade safety for complexity.
+
 ## 1. Hardware Safety Invariants
 
 - **Safe Default Boot State**: All actuator pins (relays, MOSFETs, motors, heaters) must remain in a de-energized/safe state during boot and reset.

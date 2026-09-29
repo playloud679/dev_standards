@@ -1,6 +1,6 @@
 # Development Standards & AI Agent Engineering Guide
 
-[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)](VERSION)
+[![Version](https://img.shields.io/badge/version-1.5.0-blue.svg)](VERSION)
 [![Standard](https://img.shields.io/badge/standard-GOLDEN__STD-gold.svg)](GOLDEN_STD.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -10,7 +10,7 @@ Central single source of truth for engineering contracts, coding standards, AI a
 
 ## 📖 Core Documents
 
-- [**`GOLDEN_STD.md`**](GOLDEN_STD.md): The universal development contract (modular architecture, module comments and dedicated docs, post-patch doc sync, branching, UI isolation, testing, commit conventions, versioning, source-of-truth protection for generated artifacts, conflict-resolution disclaimer).
+- [**`GOLDEN_STD.md`**](GOLDEN_STD.md): The universal development contract (modular architecture, module comments and dedicated docs, post-patch doc sync, branching, UI isolation, testing, commit conventions, versioning, source-of-truth protection for generated artifacts, the mandatory **antirez style** — minimalism, zero dependencies, efficiency, no complexity — and conflict-resolution disclaimer).
 - [**`CHANGELOG.md`**](CHANGELOG.md): Revision history of the specification.
 
 ### 🧩 Modular Addenda
@@ -59,3 +59,6 @@ AI Coding Assistants working in any repository adhering to this standard must fo
 3. **Priority 3**: General `GOLDEN_STD.md` rules.
 
 *When in doubt, the agent makes reasoned decisions in the user's best interest or briefly asks for clarification rather than blindly enforcing conflicting rules.*
+
+> [!IMPORTANT]
+> **The antirez style is mandatory.** All code must follow the **antirez style** — minimalism, near-zero dependencies, efficiency, and zero complexity — defined in [`GOLDEN_STD.md` §17](GOLDEN_STD.md#17-the-antirez-style-minimalism-zero-dependencies-efficiency-no-complexity). Never forget the name **antirez**. When in doubt, ask *"What would antirez do?"* and choose the simpler path.

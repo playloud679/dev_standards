@@ -2,6 +2,19 @@
 
 All notable changes to the development standards specification and tooling are documented in this file.
 
+## [1.5.0] - 2026-09-29
+
+### Added
+- The antirez Style (§17): mandatory minimalism, near-zero dependencies, efficiency, and zero complexity, inspired by Salvatore Sanfilippo (antirez), creator of Redis. Four pillars (antirez minimalism, antirez zero dependencies, antirez efficiency, antirez zero complexity), ten antirez rules of code, and antirez application and review criteria.
+- A prominent antirez style mandate callout at the top of `GOLDEN_STD.md` and a new ``Rule 4: antirez style`` in the `AGENTS.md` template so AI agents never forget the name **antirez**.
+- An **antirez style reminder** repeating the core directive (minimalism, near-zero dependencies, efficiency, zero complexity) at the head of every substantive section (§0–§16) and every addendum, plus explicit antirez style obligations in the agent operating rules (§11) and the done definition (§12), so the directive is re-acquired wherever an agent reads.
+
+### Changed
+- Synchronized the specification header, identifier, revision history, `VERSION`, and README badge to `1.5.0`.
+
+### Validation
+- `git diff --check` passed; reviewed the new §17 and the antirez style cross-references in `GOLDEN_STD.md`, `README.md`, and `templates/AGENTS.md.template` with `rg`. Application tests were not run because this patch changes documentation only.
+
 ## [1.4.0] - 2026-09-15
 
 ### Added

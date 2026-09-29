@@ -6,6 +6,8 @@ Guidelines and invariants for acoustic simulation engines, Thiele/Small paramete
 
 ---
 
+> **antirez style reminder:** minimalism, near-zero dependencies, efficiency, zero complexity. DSP code also follows the antirez style: solve the physics with the smallest correct implementation, prefer the standard library, and reject unnecessary complexity.
+
 ## 1. Electroacoustic Invariants
 
 All simulation models and parameter extractors must respect electroacoustic physics:

@@ -6,6 +6,8 @@ Guidelines and state isolation patterns for Streamlit dashboards, Cloud Run depl
 
 ---
 
+> **antirez style reminder:** minimalism, near-zero dependencies, efficiency, zero complexity. Dashboard code also follows the antirez style: keep state and UI minimal, avoid extra dependencies, and eliminate unnecessary complexity.
+
 ## 1. Widget State Key Isolation
 
 In Streamlit, avoid `StreamlitValueAssignmentNotAllowedError` by strictly separating interactive button/action keys from persistent parameter keys:
